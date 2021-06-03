@@ -1,0 +1,6 @@
+//10998: AxB
+//https://www.acmicpc.net/problem/10998
+//python3
+
+a, b = map(int, input().split())
+print(a*b)
