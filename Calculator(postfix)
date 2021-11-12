@@ -1,43 +1,35 @@
 #temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
 #temp = "3+4*(1+4/2+2*3)+(25/37)"
-temp = "12+34*56"
+temp = "123456+345678*567890"
  
 def cal(inputValue):
 	formula = "(" + inputValue[0]
 	stack = 1 #Bracket Count
 	n = 0
-	numLength = 0 #numberLength 
+	a = 0 #numberLength 
  
 	for i in range(1, len(inputValue)):
 		if n > 0:
 			n-=1
 			continue
 		if inputValue[i].isnumeric():
-			numLength += 1
-			if inputValue[i-1].isnumeric():
-				formula += inputValue[i]
 			if inputValue[i-1] == "(":
 				re, n = cal(inputValue[i:])
 				i += n
 				formula += re + ")"
-			elif inputValue[i-numLength] == "*" or inputValue[i-numLength] == "/" or inputValue[i-numLength] == "%":
-				if inputValue[i+1].isnumeric:
-					formula += inputValue[i]
-				else:
-					formula += inputValue[i] + ")" * stack
-					stack = 0
-			elif inputValue[i-numLength] == "+" or inputValue[i-numLength] == "-":
+			elif inputValue[i-1] == "*" or inputValue[i-1] == "/" or inputValue[i-1] == "%":
+				formula += inputValue[i] + ")" * stack
+				stack = 0
+			elif inputValue[i-1] == "+" or inputValue[i-1] == "-":
 				if inputValue[i+1] == "*" or inputValue[i+1] == "/" or inputValue[i+1] == "%":
 					formula += "(" + inputValue[i]
 					stack+=1
-				elif inputValue[i+1].isnumeric:
-					formula += inputValue[i]
 				else:
 					formula += inputValue[i] + (")" * stack)
-					
+			else:
+				formula += inputValue[i]
 		elif inputValue[i] != ")":
 			formula += inputValue[i]
-			numLength = 0
 		else:
 			return formula,i
 		print(str(i)+"-"+formula)
