@@ -1,18 +1,22 @@
 #temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
 #temp = "3+4*(1+4/2+2*3)+(25/37)"
+temp = "12+34"
  
 def cal(inputValue):
 	formula = "(" + inputValue[0]
 	stack = 1
 	n = 0
+	num = ""
  
-	for i in range(1,len(inputValue)):
+	for i in range(1, len(inputValue)):
 		if n > 0:
 			n-=1
 			continue
 		if inputValue[i].isnumeric():
+			if inputValue[i-1].isnumeric():
+				formula += inputValue[i]
 			if inputValue[i-1] == "(":
-				re,n = cal(inputValue[i:])
+				re, n = cal(inputValue[i:])
 				i += n
 				formula += re + ")"
 			elif inputValue[i-1] == "*" or inputValue[i-1] == "/":
@@ -31,4 +35,4 @@ def cal(inputValue):
 		print(str(i)+"-"+formula)
 	return formula
 p = cal(temp)
-print("식 정리 : "+p)# your code goes here
+print("식 정리 : "+p)
