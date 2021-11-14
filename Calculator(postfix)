@@ -5,34 +5,13 @@ temp = "123456+345678*567890"
 def cal(inputValue):
 	formula = "(" + inputValue[0]
 	stack = 1 #Bracket Count
-	n = 0
-	temp = "" #Temporarily stored numbers
  
 	for i in range(1, len(inputValue)):
-		if n > 0:
-			n-=1
-			continue
+		
 		if inputValue[i].isnumeric():
-			if inputValue[i-1] == "(":
-				re, n = cal(inputValue[i:])
-				i += n
-				formula += re + ")"
-			elif inputValue[i-1] == "*" or inputValue[i-1] == "/" or inputValue[i-1] == "%":
-				formula += inputValue[i] + ")" * stack
-				stack = 0
-			elif inputValue[i-1] == "+" or inputValue[i-1] == "-":
-				if inputValue[i+1] == "*" or inputValue[i+1] == "/" or inputValue[i+1] == "%":
-					formula += "(" + inputValue[i]
-					stack+=1
-				else:
-					formula += inputValue[i] + (")" * stack)
-			else:
-				formula += inputValue[i]
+			
 		elif inputValue[i] != ")":
 			formula += inputValue[i]
-		else:
-			return formula,i
-		print(str(i)+"-"+formula)
 	return formula
 p = cal(temp)
 print("식 정리 : "+p)
