@@ -4,9 +4,9 @@ temp = "123456+345678*567890"
  
 def cal(inputValue):
 	formula = ""
-	stack = 0#Bracket Count
+	stack = 1#Bracket Count
 	num = ""#temporarily stored number
-	op = "-1"#temporarilystored operator
+	op = None#temporarilystored operator
 	skip = 0
 	
 	for i in range(len(inputValue)):
@@ -16,17 +16,18 @@ def cal(inputValue):
 		if inputValue[i].isnumeric():
 			num += inputValue[i]
 		else:
-			if op == "-1":
+			if op is None:
 				formula = "(" + num + inputValue[i]
-				stack += 1
 			elif inputValue[i] == "*" or inputValue[i] == "/" or inputValue[i] == "%":
 				if op == "*" or op == "/" or op == "%":
 					formula += num + ")" * stack + inputValue[i]
+					stack = 0
 				elif op == "+" or op == "-":
 					formula += "(" + num + inputValue[i]
 					stack += 1
 			elif inputValue[i] == "+" or inputValue[i] == "-":
 				formula += num + ")" * stack + inputValue[i]
+				stack = 0
 			elif inputValue[i] == "(":
 				temp ,skip = cal(inputValue[i+1:])
 			elif inputValue[i] == ")":
