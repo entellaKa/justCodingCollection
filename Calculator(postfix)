@@ -2,11 +2,11 @@
 temp = "3+4+7*(1+4/2+2*3)+(25/37)"
 #temp = "123456+345678*567890"
  
-def cal(inputValue):
+def organize(inputValue): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
 	formula = ""
 	stack = 1#Bracket Count
 	num = ""#temporarily stored number
-	op = None#temporarilystored operator
+	op = None#temporarily stored operator
 	skip = 0
 	
 	for i in range(len(inputValue)):
@@ -29,7 +29,7 @@ def cal(inputValue):
 				formula += num + ")" * stack + inputValue[i]
 				stack = 0
 			elif inputValue[i] == "(":
-				temp ,skip = cal(inputValue[i+1:]) 
+				temp ,skip = organize(inputValue[i+1:]) 
 				formula += temp
 			elif inputValue[i] == ")":
 				return formula+num+")"*stack, i+1
@@ -37,5 +37,23 @@ def cal(inputValue):
 			num = ""
 			op = inputValue[i]
 	return formula+num+")"*stack
-
-print("식 정리 : "+cal(temp))
+	
+def rearrange(formula):
+	reform = ""
+	opStack = []
+	for i in range(len(formula)):
+		if formula[i].isnumeric():
+			reform += formula[i]
+		elif formula[i] == "(":
+			pass
+		elif formula[i] == ")":
+			reform += " " + opStack.pop()
+		else:
+			opStack.append(formula[i])
+			reform += " "
+			print(formula[i])
+			print(opStack)
+	return reform
+f = organize(temp)
+print("식 정리 : "+f)
+print("식 재구성 :"+rearrange(f))
