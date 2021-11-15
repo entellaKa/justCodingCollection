@@ -43,7 +43,10 @@ def organize(inputValue): #function using the bracket to organize the calculatio
 			
 			num = ""
 			op = inputValue[i]
-	return formula+num+")"*stack
+	if stack == 0:
+		return "("+formula+num+")"
+	else:
+		return formula+num+")"*stack
 	
 def rearrange(formula):
 	reform = ""
