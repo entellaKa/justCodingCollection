@@ -1,6 +1,7 @@
-#temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
-temp = "3+4+7*(1+4/2+2*3)+(25/37)"
+temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
+#temp = "3+4+7*(1+4/2+2*3)+(25/37)"
 #temp = "123456+345678*567890"
+#temp = "1*2*3*4*8*9"
  
 def organize(inputValue): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
 	formula = ""
@@ -20,17 +21,23 @@ def organize(inputValue): #function using the bracket to organize the calculatio
 				formula = "(" + num + inputValue[i]
 			elif inputValue[i] == "*" or inputValue[i] == "/" or inputValue[i] == "%":
 				if op == "*" or op == "/" or op == "%":
-					formula += num + ")" * stack + inputValue[i]
-					stack = 0
+					if stack == 0:
+						formula = "(" + formula + num + ")" + inputValue[i]
+					else:
+						formula += num + ")" * stack + inputValue[i]
+						stack = 0
 				elif op == "+" or op == "-":
 					formula += "(" + num + inputValue[i]
 					stack += 1
 			elif inputValue[i] == "+" or inputValue[i] == "-":
-				formula += num + ")" * stack + inputValue[i]
-				stack = 0
+				if stack == 0:
+					formula = "(" + formula + num + ")" + inputValue[i]
+				else:
+					formula += num + ")" * stack + inputValue[i]
+					stack = 0
 			elif inputValue[i] == "(":
 				temp ,skip = organize(inputValue[i+1:]) 
-				formula += temp
+				formula += "(" + temp + ")"
 			elif inputValue[i] == ")":
 				return formula+num+")"*stack, i+1
 			
@@ -53,6 +60,7 @@ def rearrange(formula):
 			reform += " "
 			print(formula[i])
 			print(opStack)
+	print(opStack)
 	return reform
 	
 def calculate(formula):
@@ -79,11 +87,12 @@ def calculate(formula):
 			elif formula[i] == "%":
 				n = stack.pop()
 				num = stack.pop() % n
-	return stack.pop()
+	print(stack)
+	return num
 
 f = organize(temp)
 print("식 정리 : "+f)
 g = rearrange(f)
 print("식 재구성 :"+g)
 h = calculate(g)
-print("식 결과값 :"+str(h)) #3+4+7*(1+4/2+2*3)+(25/37)=9
+print("식 결과값 :"+str(h))
