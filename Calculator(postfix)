@@ -54,6 +54,36 @@ def rearrange(formula):
 			print(formula[i])
 			print(opStack)
 	return reform
+	
+def calculate(formula):
+	stack = []
+	num = ""
+	
+	for i in range(len(formula)):
+		if formula[i] == " ":
+			stack.append(int(num))
+			num = ""
+		elif formula[i].isnumeric():
+			num += formula[i]
+		else:
+			if formula[i] == "+":
+				num = stack.pop() + stack.pop()
+			elif formula[i] == "-":
+				n = stack.pop()
+				num = stack.pop() - n
+			elif formula[i] == "*":
+				num = stack.pop() * stack.pop()
+			elif formula[i] == "/":
+				n = stack.pop()
+				num = stack.pop() / n
+			elif formula[i] == "%":
+				n = stack.pop()
+				num = stack.pop() % n
+	return stack.pop()
+
 f = organize(temp)
 print("식 정리 : "+f)
-print("식 재구성 :"+rearrange(f))
+g = rearrange(f)
+print("식 재구성 :"+g)
+h = calculate(g)
+print("식 결과값 :"+str(h)) #3+4+7*(1+4/2+2*3)+(25/37)=9
