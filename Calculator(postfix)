@@ -3,15 +3,37 @@
 temp = "123456+345678*567890"
  
 def cal(inputValue):
-	formula = "(" + inputValue[0]
-	stack = 1 #Bracket Count
- 
-	for i in range(1, len(inputValue)):
-		
+	formula = ""
+	stack = 0#Bracket Count
+	num = ""#temporarily stored number
+	op = "-1"#temporarilystored operator
+	skip = 0
+	
+	for i in range(len(inputValue)):
+		if skip > 0:
+			skip -= 1
+			continue
 		if inputValue[i].isnumeric():
+			num += inputValue[i]
+		else:
+			if op == "-1":
+				formula = "(" + num + inputValue[i]
+				stack += 1
+			elif inputValue[i] == "*" or inputValue[i] == "/" or inputValue[i] == "%":
+				if op == "*" or op == "/" or op == "%":
+					formula += num + ")" * stack + inputValue[i]
+				elif op == "+" or op == "-":
+					formula += "(" + num + inputValue[i]
+					stack += 1
+			elif inputValue[i] == "+" or inputValue[i] == "-":
+				formula += num + ")" * stack + inputValue[i]
+			elif inputValue[i] == "(":
+				temp ,skip = cal(inputValue[i+1:])
+			elif inputValue[i] == ")":
+				return formula, i+2
 			
-		elif inputValue[i] != ")":
-			formula += inputValue[i]
-	return formula
-p = cal(temp)
-print("식 정리 : "+p)
+			num = ""
+			op = inputValue[i]
+	return formula+num+")"*stack
+
+print("식 정리 : "+cal(temp))
