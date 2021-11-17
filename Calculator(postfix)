@@ -12,6 +12,9 @@ def checkOp(c): #check this character is operator
 def checkBracket(formula):
 	cnt = 1
 	stack = ""
+    
+    if not "(" in formula:
+        return formula[:-1]
 	
 	while cnt > 0:
 		while formula.find("(") < formula.find(")"):
@@ -29,18 +32,28 @@ def checkBracket(formula):
 	return stack
 
 def organize(formula): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
-	i = 0
 	fixedFormula = ""
-	
+	i = 0
+    num = ""
+    op = ""
+    stack = []
+    
 	while i == len(formula):
 		if formula[i].isnumeric:
-			
+			num+=formula[i]
 		elif formula[i] == "(":
-			t = checkBacket(formula[i+1:formula.rfind(')')+1])
-			i += len(t)
-			fixedFormula += organize(t)
+			inBracket = checkBacket(formula[i+1:formula.rfind(')')+1])
+            withBracket = "("+inBracket+")"
+            stack.append(organize(inBracket))
+            formula.replace(withBracket, "x")
+            if num == "":
+                
+            else:
+                
+			#i += len(t)
+			#fixedFormula += organize(t)
 		elif checkOp(formula[i]):
-			
+            
 		else:
 			
 	return fixedFormula
