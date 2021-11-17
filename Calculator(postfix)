@@ -36,7 +36,7 @@ def organize(formula): #function using the bracket to organize the calculation o
 	i = 0
     num = ""
     op = ""
-    stack = []
+    temp = []
     
 	while i == len(formula):
 		if formula[i].isnumeric:
@@ -44,18 +44,22 @@ def organize(formula): #function using the bracket to organize the calculation o
 		elif formula[i] == "(":
 			inBracket = checkBacket(formula[i+1:formula.rfind(')')+1])
             withBracket = "("+inBracket+")"
-            stack.append(organize(inBracket))
+            temp.append(organize(inBracket))
             formula.replace(withBracket, "x")
             if num == "":
-                
+                #
             else:
-                
+                fixedFormula += "("+num+"*x)"
 			#i += len(t)
 			#fixedFormula += organize(t)
 		elif checkOp(formula[i]):
-            
+            #
+            fixedFormula += num
+            num = ""
+            op = formula[i]
 		else:
-			
+			#
+        i+=1
 	return fixedFormula
 	
 
