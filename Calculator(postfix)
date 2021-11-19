@@ -10,58 +10,61 @@ def checkOp(c): #check this character is operator
 		return false
 
 def checkBracket(formula):
-	cnt = 1
-	stack = ""
+    cnt = 1
+    stack = ""
     
-    if not "(" in formula:
+    if '(' not in formula:
         return formula[:-1]
-	
-	while cnt > 0:
-		while formula.find("(") < formula.find(")"):
-			n = formula.find("(")
-			stack += formula[:n+1]
-			formula = formula[n+1:]
-			cnt+=1
-			if not "(" in formula:
-				return stack + formula[:-1]
-		while formula.find("(") > formula.find(")"):
-			n = formula.find(")")
-			stack += formula[:n+1]
-			formula = formula[n+1:]
-			cnt-=1
-	return stack
+    
+    while cnt > 0:
+        while formula.find("(") < formula.find(")"):
+            n = formula.find("(")
+            stack += formula[:n+1]
+            formula = formula[n+1:]
+            cnt+=1
+            if '(' not in formula:
+                return stack + formula[:-1]
+        while formula.find("(") > formula.find(")"):
+            n = formula.find(")")
+            stack += formula[:n+1]
+            formula = formula[n+1:]
+            cnt-=1
+    return stack
 
 def organize(formula): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
-	fixedFormula = ""
-	i = 0
+    fixedFormula = ""
+    i = 0
     num = ""
     op = ""
     temp = []
-    
-	while i == len(formula):
-		if formula[i].isnumeric:
-			num+=formula[i]
-		elif formula[i] == "(":
-			inBracket = checkBacket(formula[i+1:formula.rfind(')')+1])
+
+    while i == len(formula):
+        if formula[i].isnumeric:
+            num+=formula[i]
+        elif formula[i] == "(":
+            inBracket = checkBacket(formula[i+1:formula.rfind(')')+1])
             withBracket = "("+inBracket+")"
             temp.append(organize(inBracket))
             formula.replace(withBracket, "x")
             if num == "":
-                #
+                if op == "+" or op == "-":
+                    fixedFormula += num + ")" + op + "x" 
             else:
                 fixedFormula += "("+num+"*x)"
-			#i += len(t)
-			#fixedFormula += organize(t)
-		elif checkOp(formula[i]):
+            #i += len(t)
+            #fixedFormula += organize(t)
+        elif checkOp(formula[i]):
             #
             fixedFormula += num
             num = ""
             op = formula[i]
-		else:
-			#
+        else:
+            if op == "+" or op == "-":
+                fixedFormula += num + ")" + op + "x" 
+            #
         i+=1
-	return fixedFormula
-	
+    return fixedFormula
+
 
 
 	
