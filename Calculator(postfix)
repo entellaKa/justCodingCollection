@@ -13,9 +13,7 @@ def organize(formula): #function using the bracket to organize the calculation o
     fixedFormula = ""
     i = 0
     num = ""
-    op = ""
     storage = []
-    count = 0 #bracketCount
     
     while i < len(formula):
         if formula[i].isnumeric():
