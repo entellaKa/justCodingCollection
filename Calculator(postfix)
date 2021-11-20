@@ -36,40 +36,20 @@ def organize(formula): #function using the bracket to organize the calculation o
     i = 0
     num = ""
     op = ""
-    temp = []
+    storage
     count = 0 #bracketCount
     
     while i < len(formula):
         if formula[i].isnumeric():
             num+=formula[i]
         elif formula[i] == "(":
-            inBracket = checkBracket(formula[i+1:formula.rfind(')')+1])
-            withBracket = "("+inBracket+")"
-            temp.append(organize(inBracket))
-            formula.replace(withBracket, "x")
             if num == "":
-                if op == "+" or op == "-":
-                    fixedFormula += num + ")" * count + op
-                    num = "x"
-                elif op == "*" or op == "/" or op == "%"
+                pass
             else:
-                fixedFormula += "("+num+"*x)"
-            #i += len(t)
-            #fixedFormula += organize(t)
-        elif checkOp(formula[i]):
-            #
-            fixedFormula += num
-
-            num = ""
-            op = formula[i]
+                storage.append(int("num")) #extract a number from formula 식에서 숫자를 추출한다
+                fixedFormula += "x" + formula[i]
         else:
-            if op == "+" or op == "-":
-                if count == 0:
-                    fixedFormula += num + ")" * count + op
-                else:
-                    fixedFormula += num + ")" * count + op
-                    
-            #
+            storage.append(int("num")) #extract a number from formula 식에서 숫자를 추출한다
         i+=1
     return fixedFormula
 
