@@ -3,40 +3,18 @@ temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
 #temp = "123456+345678*567890"
 #temp = "1*2*3*4*8*9"
  
-def checkOp(c): #check this character is operator
+def checkOperator(c): #check this character is operator
 	if c == "+" or c == "-" or c == "*" or c == "/" or c == "%":
 		return True
 	else:
 		return False
-
-def checkBracket(formula):
-    cnt = 1
-    stack = ""
-    
-    if '(' not in formula:
-        return formula[:-1]
-    
-    while cnt > 0:
-        while formula.find("(") < formula.find(")"):
-            n = formula.find("(")
-            stack += formula[:n+1]
-            formula = formula[n+1:]
-            cnt+=1
-            if '(' not in formula:
-                return stack + formula[:-1]
-        while formula.find("(") > formula.find(")"):
-            n = formula.find(")")
-            stack += formula[:n+1]
-            formula = formula[n+1:]
-            cnt-=1
-    return stack
 
 def organize(formula): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
     fixedFormula = ""
     i = 0
     num = ""
     op = ""
-    storage
+    storage = []
     count = 0 #bracketCount
     
     while i < len(formula):
@@ -44,12 +22,15 @@ def organize(formula): #function using the bracket to organize the calculation o
             num+=formula[i]
         elif formula[i] == "(":
             if num == "":
-                pass
+                fixedFormula += "("
             else:
                 storage.append(int("num")) #extract a number from formula 식에서 숫자를 추출한다
-                fixedFormula += "x" + formula[i]
-        else:
+                fixedFormula += "x*("
+		num == ""
+        elif checkOperator(formula[i]):
             storage.append(int("num")) #extract a number from formula 식에서 숫자를 추출한다
+	    fixedFormula += "x" + formula[i]
+	    num = ""
         i+=1
     return fixedFormula
 
