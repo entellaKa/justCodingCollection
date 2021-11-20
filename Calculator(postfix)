@@ -24,14 +24,21 @@ def organize(formula): #function using the bracket to organize the calculation o
             if num == "":
                 fixedFormula += "("
             else:
-                storage.append(int("num")) #extract a number from formula 식에서 숫자를 추출한다
+                storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
                 fixedFormula += "x*("
-		num == ""
+                num == ""
+        elif formula[i] == ")":
+            if not num == "":
+                fixedFormula += "x"
+                storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+                num = ""
+            fixedFormula += ")"
         elif checkOperator(formula[i]):
-            storage.append(int("num")) #extract a number from formula 식에서 숫자를 추출한다
-	    fixedFormula += "x" + formula[i]
-	    num = ""
+            storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+            fixedFormula += "x" + formula[i]
+            num = ""
         i+=1
+    print(storage)
     return fixedFormula
 
 
@@ -84,7 +91,7 @@ def calculate(formula):
 
 f = organize(temp)
 print("식 정리 : "+f)
-g = postfix(f)
+'''g = postfix(f)
 print("식 재구성 :"+g)
 h = calculate(g)
-print("식 결과값 :"+str(h))
+print("식 결과값 :"+str(h))'''
