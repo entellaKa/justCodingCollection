@@ -55,7 +55,13 @@ def standardization(formula):
                 #음수 입력 구현
                 pass
             fixedFormula += formula[i]
-    return fixedFormula 
+    if num == "":
+        return fixedFormula
+    else:
+        storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+        num = ""
+        return fixedFormula + "n"
+        
 """*******************cleer*******************"""
 
 def abbreviateBracket(formula):
@@ -69,7 +75,7 @@ def abbreviateBracket(formula):
             count -= 1
             if count == 0:
                 ##############################################################################################
-                 abbreviateMultiply(formula[:i])
+                abbreviateMultiply(formula[:i])
                 return formula[:i]
     return formula
 
@@ -93,33 +99,12 @@ def abbreviateMultiply(formula):
                 ex = formula[i]
 
 def abbreviatePlus(formula): #더하기 빼기는 줄일필요 없이 바로 괄호로 묶어 줘도 상관 없음
-    returnFormula = "("+formula[:3]+")"
-    '''
-    ex = ""
-    stack = []
+    n = int((len(formula)-3)/2)
+    returnFormula = "(" * (n+1) + formula[:3] + ")"
     
-    for i in range(len(formula)):
-    """
-        if formula[i] == "+" or formula[i] == "-": 
-            if ex == "":
-                stack.append("(p*{})".format(formula[i+1]))
-            else:
-                returnFormula += "p"
-                stack.append("({}*{})".format(formula[i-1], formula[i+1]))
-            ex = "pass"
-        else:
-            if ex == "pass":
-                ex = ""
-            else:
-                returnFormula += ex
-                ex = formula[i]
-                """
-                '''
-    n = (len(formula)-3)/2
-    returnFormula = "(" * n + returnFormula
-    for i in range(3:n+3):
-        returnFormula += formula[2*i:2*i+1] + ")"
-        
+    for i in range(2, n+2):
+        returnFormula += formula[2*i-1:2*i+1] + ")"
+
     return returnFormula ###################################################################################################
         
                 
@@ -131,9 +116,9 @@ def wrapping(formula):
         if formula[i] == "x":
             pass
         elif formula[i] == "(":
-            
+            pass
         elif checkOperator(formula[i]):
-            
+            pass
         elif formula[i] == ")":
             return formula[:i-1], newFromula
         #newformula += formula[i]
@@ -191,7 +176,9 @@ def calculate(formula):
 	print(stack)
 	return num
 
-f = organize(temp)
+
+f = standardization("1+2-6+6-5+4-8+9-7+1-5+8-7")
+f = abbreviatePlus(f)
 print("식 정리 : "+f)
 '''g = postfix(f)
 print("식 재구성 :"+g)
