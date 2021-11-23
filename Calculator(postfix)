@@ -92,12 +92,14 @@ def abbreviateMultiply(formula):
                 returnFormula += ex
                 ex = formula[i]
 
-def abbreviatePlus(formula):
-    returnFormula = ""
+def abbreviatePlus(formula): #더하기 빼기는 줄일필요 없이 바로 괄호로 묶어 줘도 상관 없음
+    returnFormula = "("+formula[:3]+")"
+    '''
     ex = ""
     stack = []
+    
     for i in range(len(formula)):
-        '''
+    """
         if formula[i] == "+" or formula[i] == "-": 
             if ex == "":
                 stack.append("(p*{})".format(formula[i+1]))
@@ -111,8 +113,15 @@ def abbreviatePlus(formula):
             else:
                 returnFormula += ex
                 ex = formula[i]
+                """
                 '''
-                
+    n = (len(formula)-3)/2
+    returnFormula = "(" * n + returnFormula
+    for i in range(3:n+3):
+        returnFormula += formula[2*i:2*i+1] + ")"
+        
+    return returnFormula ###################################################################################################
+        
                 
 def wrapping(formula):
     newFormula = ""
