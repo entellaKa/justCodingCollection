@@ -6,6 +6,8 @@
 1-3) 음수 입력을 주의한다 (아직 미구현)
 2. 정리된 식을 후위 표기식으로 바꿔준다
 3. 바뀐 식을 계산한다.
+
+축약어 :  p - plus or minus, m - multiply or division, b - bracket, n - number
 """
 
 temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
@@ -32,12 +34,12 @@ def standardization(formula):
         elif formula[i] == "(":
             if not num == "":
                 storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
-                fixedFormula += "x*"
+                fixedFormula += "n*"
                 num == ""
             fixedFormula += "("
         elif formula[i] == ")":
             if not num == "":
-                fixedFormula += "x"
+                fixedFormula += "n"
                 storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
                 num = ""
             fixedFormula += ")"
@@ -46,29 +48,72 @@ def standardization(formula):
                     fixedFormula += "*"
         elif checkOperator(formula[i]):
             if not num == "":
-                fixedFormula += "x"
+                fixedFormula += "n"
                 storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
                 num = ""
             else:
                 #음수 입력 구현
                 pass
             fixedFormula += formula[i]
-    print(storage)
-    print(fixedFormula)
-    return fixedFormula
+    return fixedFormula 
+"""*******************cleer*******************"""
 
-def abbreviate(formula):
+def abbreviateBracket(formula):
     count = 1
+    returnFormula = ""
     for i in range(len(formula)):
         if formula[i] == "(":
             count += 1
+            abbreviateBracket(formula[i+1:])
         elif formula[i] == ")":
             count -= 1
             if count == 0:
                 ##############################################################################################
+                 abbreviateMultiply(formula[:i])
                 return formula[:i]
     return formula
 
+def abbreviateMultiply(formula):
+    returnFormula = ""
+    ex = ""
+    stack = []
+    for i in range(len(formula)):
+        if formula[i] == "*" or formula[i] == "/" or formula[i] == "%":
+            if ex == "":
+                stack.append("(m*{})".format(formula[i+1]))
+            else:
+                returnFormula += "m"
+                stack.append("({}*{})".format(formula[i-1], formula[i+1]))
+            ex = "pass"
+        else:
+            if ex == "pass":
+                ex = ""
+            else:
+                returnFormula += ex
+                ex = formula[i]
+
+def abbreviatePlus(formula):
+    returnFormula = ""
+    ex = ""
+    stack = []
+    for i in range(len(formula)):
+        '''
+        if formula[i] == "+" or formula[i] == "-": 
+            if ex == "":
+                stack.append("(p*{})".format(formula[i+1]))
+            else:
+                returnFormula += "p"
+                stack.append("({}*{})".format(formula[i-1], formula[i+1]))
+            ex = "pass"
+        else:
+            if ex == "pass":
+                ex = ""
+            else:
+                returnFormula += ex
+                ex = formula[i]
+                '''
+                
+                
 def wrapping(formula):
     newFormula = ""
     count  = 1 #BracketCount
