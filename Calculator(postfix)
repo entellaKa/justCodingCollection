@@ -15,7 +15,9 @@ temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
 #temp = "123456+345678*567890"
 #temp = "1*2*3*4*8*9"
 
-storage = []
+storageNumber = []
+storageBracket = []
+storageMulti = []
 
 def checkOperator(c): #check this character is operator
 	if c == "+" or c == "-" or c == "*" or c == "/" or c == "%":
@@ -26,21 +28,21 @@ def checkOperator(c): #check this character is operator
 def standardization(formula):
     fixedFormula = ""
     num = ""
-    storage = []
+    
     
     for i in range(len(formula)):
         if formula[i].isnumeric():
             num+=formula[i]
         elif formula[i] == "(":
             if not num == "":
-                storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+                storageNumber.append(num) #extract a number from formula 식에서 숫자를 추출한다
                 fixedFormula += "n*"
                 num == ""
             fixedFormula += "("
         elif formula[i] == ")":
             if not num == "":
                 fixedFormula += "n"
-                storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+                storageNumber.append(num) #extract a number from formula 식에서 숫자를 추출한다
                 num = ""
             fixedFormula += ")"
             if i+1 < len(formula):
@@ -49,7 +51,7 @@ def standardization(formula):
         elif checkOperator(formula[i]):
             if not num == "":
                 fixedFormula += "n"
-                storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+                storageNumber.append(num) #extract a number from formula 식에서 숫자를 추출한다
                 num = ""
             else:
                 #음수 입력 구현
@@ -58,7 +60,7 @@ def standardization(formula):
     if num == "":
         return fixedFormula
     else:
-        storage.append(num) #extract a number from formula 식에서 숫자를 추출한다
+        storageNumber.append(num) #extract a number from formula 식에서 숫자를 추출한다
         num = ""
         return fixedFormula + "n"
         
@@ -75,7 +77,7 @@ def abbreviateBracket(formula):
             count -= 1
             if count == 0:
                 ##############################################################################################
-                abbreviateMultiply(formula[:i])
+                returnFormula = abbreviateMultiply(formula[:i])
                 return formula[:i]
     return formula
 
@@ -97,6 +99,8 @@ def abbreviateMultiply(formula):
             else:
                 returnFormula += ex
                 ex = formula[i]
+    returnFormula = abbreviatePlus(returnFormula)
+    refactoring(abbreviatePlus(returnFormula), stack, "m")
 
 def abbreviatePlus(formula): #더하기 빼기는 줄일필요 없이 바로 괄호로 묶어 줘도 상관 없음
     n = int((len(formula)-3)/2)
@@ -107,7 +111,7 @@ def abbreviatePlus(formula): #더하기 빼기는 줄일필요 없이 바로 괄
 
     return returnFormula ###################################################################################################
         
-                
+'''               
 def wrapping(formula):
     newFormula = ""
     count  = 1 #BracketCount
@@ -123,6 +127,15 @@ def wrapping(formula):
             return formula[:i-1], newFromula
         #newformula += formula[i]
     return newFormula
+'''
+def refactoring(formula, stack, char):
+    reFormula = ""
+    while len(stack) > 0:
+        reFormula += formula[:formula.find(char)]
+        formula = formula[formula.find(char)+1:]
+        reFormula += stack.pop()
+        
+    return reFormula + formula
 
 def organize(formula): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
     noformula = standardization(formula)
