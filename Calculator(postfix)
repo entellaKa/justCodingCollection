@@ -11,8 +11,8 @@
 """
 #temp = "1+2-6+6-5+4-8+9-7+1-5+8-7"
 #temp = "1*2*3*4*8*9"
-temp = "1+2-6*5+4-8*2*3+4*9+7+1-5*8-7"
-#temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
+#temp = "1+2-6*5+4-8*2*3+4*9+7+1-5*8-7"
+temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
 #temp = "3+4+7*(1+4/2+2*3)+(25/37)"
 #temp = "123456+345678*567890"
 
@@ -94,13 +94,13 @@ def abbreviateBracket(formula):
     count = 1
     returnFormula = ""
     stack = []
-    i = 1
+    i = 0
     while count > 0:
         if formula[i] == "(":
             count += 1
             innerBracket = abbreviateBracket(formula[i:])
-            formula = formula[:i] + "b" + formula[i+len(innerBracket):]
-            stack.append(abbreviateMultiply(innerBracket))
+            formula = formula[:i] + "b" + formula[i+len(innerBracket)+2:]
+            stack.append("({})".format(abbreviateMultiply(innerBracket)))
         elif formula[i] == ")":
             count -= 1
             if count == 0:
@@ -108,7 +108,12 @@ def abbreviateBracket(formula):
         i+=1
     return formula
 
-#function(formula)
+def function(formula):
+    stack = []
+    while formula.find("(") >= 0:
+        innerBraceket = abbreviateBracket(formula[formula.find("(")+1:])
+        formula = formula[:i] + "b" + formula[i+len(innerBracket)+2:]
+        stack.append("({})".format(abbreviateMultiply(innerBracket)))
 
 def postfix(formula):
 	postfixedFormula = ""
