@@ -9,9 +9,9 @@
 
 축약어 :  p - plus or minus, m - multiply or division, b - bracket, n - number
 """
-#temp = "1+2-6+6-5+4-8+9-7+1-5+8-7"
+temp = "1+2-6+6-5+4-8+9-7+1-5+8-7"
 #temp = "1*2*3*4*8*9"
-temp = "1+2-6*5+4-8*2*3+4*9+7+1-5*8-7"
+#temp = "1+2-6*5+4-8*2*3+4*9+7+1-5*8-7"
 #temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
 #temp = "3+4+7*(1+4/2+2*3)+(25/37)"
 #temp = "123456+345678*567890"
@@ -63,25 +63,20 @@ def standardization(formula):
         num = ""
         return fixedFormula + "n"
         
-"""*******************cleer*******************"""
-
-def abbreviateBracket(formula):
-    count = 1
-    returnFormula = ""
-    stack = []
-    i = 0
-    while count > 0:
-        if formula[i] == "(":
-            count += 1
-            innerBracket = abbreviateBracket(formula[i+1:])
-            formula = formula[:i] + "b" + formula[i+len(innerBracket):]
-            stack.append(abbreviateMultiply(innerBracket))
-        elif formula[i] == ")":
-            count -= 1
-            if count == 0:
-                return formula[:i]
-        i+=1
+def refactoring(formula, stack, char):
+    while len(stack) > 0:
+        n = formula.find(char)
+        formula = formula[:n] + stack.pop() + formula[n+1:]    
     return formula
+
+def abbreviatePlus(formula): #더하기 빼기는 줄일필요 없이 바로 괄호로 묶어 줘도 상관 없음
+    n = int((len(formula)-3)/2)
+    returnFormula = "(" * (n+1) + formula[:3] + ")"
+    
+    for i in range(2, n+2):
+        returnFormula += formula[2*i-1:2*i+1] + ")"
+
+    return returnFormula ###################################################################################################
 
 def abbreviateMultiply(formula):
     returnFormula = ""
@@ -104,45 +99,29 @@ def abbreviateMultiply(formula):
     #returnFormula = abbreviatePlus(returnFormula)
     return refactoring(abbreviatePlus(returnFormula), stack, "m")
 
-def abbreviatePlus(formula): #더하기 빼기는 줄일필요 없이 바로 괄호로 묶어 줘도 상관 없음
-    n = int((len(formula)-3)/2)
-    returnFormula = "(" * (n+1) + formula[:3] + ")"
-    
-    for i in range(2, n+2):
-        returnFormula += formula[2*i-1:2*i+1] + ")"
+"""*******************cleer*******************"""
 
-    return returnFormula ###################################################################################################
-        
-'''               
-def wrapping(formula):
-    newFormula = ""
-    count  = 1 #BracketCount
-    
-    for i in range(len(formula)):
-        if formula[i] == "x":
-            pass
-        elif formula[i] == "(":
-            pass
-        elif checkOperator(formula[i]):
-            pass
+def abbreviateBracket(formula):
+    count = 1
+    returnFormula = ""
+    stack = []
+    i = 0
+    while count > 0:
+        if formula[i] == "(":
+            count += 1
+            innerBracket = abbreviateBracket(formula[i+1:])
+            formula = formula[:i] + "b" + formula[i+len(innerBracket):]
+            stack.append(abbreviateMultiply(innerBracket))
         elif formula[i] == ")":
-            return formula[:i-1], newFromula
-        #newformula += formula[i]
-    return newFormula
-'''
-def refactoring(formula, stack, char):
-    while len(stack) > 0:
-        n = formula.find(char)
-        formula = formula[:n] + stack.pop() + formula[n+1:]    
+            count -= 1
+            if count == 0:
+                return formula[:i]
+        i+=1
     return formula
 
-def organize(formula): #function using the bracket to organize the calculation order//괄호로 식의 계산 순서를 정리해주는 함수
-    noformula = standardization(formula)
-    wrappedFormula = wrapping(noformula)
-    newFormula = wrappedFormula
+def function(formula):
     
-    return newFormula
-	
+
 def postfix(formula):
 	postfixedFormula = ""
 	opStack = []
@@ -190,9 +169,12 @@ def calculate(formula):
 
 
 #f = abbreviateBracket(f)
-f = standardization(temp)
+formula = "("+temp+")"
+f = standardization(formula)
+f = abbreviateBracket(f)
 f = abbreviateMultiply(f)
 print("식 정리 : "+f)
+print(temp)
 '''g = postfix(f)
 print("식 재구성 :"+g)
 h = calculate(g)
