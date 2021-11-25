@@ -62,6 +62,8 @@ def standardization(formula):
         storageNumber.append(num) #extract a number from formula 식에서 숫자를 추출한다
         num = ""
         return fixedFormula + "n"
+    
+    """---------------------------------------------------------------------------------------"""
         
 def refactoring(formula, stack, char):
     while len(stack) > 0:
@@ -95,26 +97,37 @@ def abbreviateBracket(formula):
     returnFormula = ""
     stack = []
     i = 0
+    
     while count > 0:
         if formula[i] == "(":
             count += 1
-            innerBracket = abbreviateBracket(formula[i:])
+            n = abbreviateBracket(formula[i:])
+            innerBracket = formula[i:i+n]
+            returnFormula += formula
+            
+            
             formula = formula[:i] + "b" + formula[i+len(innerBracket)+2:]
             stack.append("({})".format(abbreviateMultiply(innerBracket)))
         elif formula[i] == ")":
             count -= 1
             if count == 0:
                 refacoring(formula, stack, "b")
-                return formula[:i]
+                return i
         i+=1
-    return formula
+    return -1
 
 def function(formula):
     stack = []
     while formula.find("(") >= 0:
-        innerBraceket = abbreviateBracket(formula[formula.find("(")+1:])
-        formula = formula[:i] + "b" + formula[i+len(innerBracket)+2:]
-        stack.append("({})".format(abbreviateMultiply(innerBracket)))
+        n = abbreviateBracket(formula[i:])
+        innerBracket = formula[i+1:i+n]
+        
+        
+        
+        formula = formula[:i] + "b" + formula[i+n+2:]
+        stack.append(abbreviateMultiply(innerBracket))
+    abbreviateMultiply(formula)
+    refactoring(formula, stack, "b")
 
 def postfix(formula):
 	postfixedFormula = ""
