@@ -65,7 +65,7 @@ def standardization(formula):
         
 def refactoring(formula, stack, char):
     while len(stack) > 0:
-        n = formula.find(char)
+        n = formula.rfind(char)
         formula = formula[:n] + stack.pop() + formula[n+1:]
     return formula
 
@@ -82,7 +82,7 @@ def abbreviateMultiply(formula):
 
     while i < len(formula):
         if formula[i] == "*" or formula[i] == "/" or formula[i] == "%":
-            stack.append("({}*{})".format(formula[i-1], formula[i+1]))
+            stack.append("("+formula[i-1:i+2]+")")
             formula = formula[:i-1] + "m" + formula[i+2:]
         else:
             i+=1
@@ -104,6 +104,7 @@ def abbreviateBracket(formula):
         elif formula[i] == ")":
             count -= 1
             if count == 0:
+                refacoring(formula, stack, "b")
                 return formula[:i]
         i+=1
     return formula
