@@ -12,8 +12,8 @@
 #temp = "1+2-6+6-5+4-8+9-7+1-5+8-7"
 #temp = "1*2*3*4*8*9"
 #temp = "1+2-6*5+4-8*2*3+4*9+7+1-5*8-7"
-temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
-#temp = "3+4+7*(1+4/2+2*3)+(25/37)"
+#temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
+temp = "3+4*(1+4/(2+6/18)*2)"
 #temp = "123456+345678*567890"
 
 
@@ -28,6 +28,8 @@ def checkOperator(c): #check this character is operator
 def standardization(formula):
     fixedFormula = ""
     num = ""
+    
+    formula = formula.replace(" ", "")
 
     for i in range(len(formula)):
         if formula[i].isnumeric():
@@ -62,9 +64,7 @@ def standardization(formula):
         storageNumber.append(num) #extract a number from formula 식에서 숫자를 추출한다
         num = ""
         return fixedFormula + "n"
-    
-    """---------------------------------------------------------------------------------------"""
-        
+            
 def refactoring(formula, stack, char):
     while len(stack) > 0:
         n = formula.rfind(char)
@@ -90,7 +90,6 @@ def abbreviateMultiply(formula):
             i+=1
     return refactoring(abbreviatePlus(formula), stack, "m")
 
-"""*******************cleer*******************"""
 
 def abbreviateBracket(formula):
     count = 1
@@ -101,22 +100,12 @@ def abbreviateBracket(formula):
     while count > 0:
         if formula[i] == "(":
             count += 1
-            n = abbreviateBracket(formula[i+1:])
-            innerBracket = formula[i:i+n]
-            returnFormula += formula
-            
-            
-            formula = formula[:i] + "b" + formula[i+len(innerBracket)+2:]
-            stack.append("({})".format(abbreviateMultiply(innerBracket)))
         elif formula[i] == ")":
             count -= 1
             if count == 0:
-                print(stack)
-                print(formula)
-                refactoring(formula, stack, "b")
                 return i
         i+=1
-    return -1
+    return -1  
 
 def function(formula):
     stack = []
@@ -125,12 +114,17 @@ def function(formula):
         n = abbreviateBracket(formula[i+1:])
         innerBracket = formula[i+1:i+n+1]
         
-        
+        print("before:"+formula)
+        print("factor:"+innerBracket)
         formula = formula[:i] + "b" + formula[i+n+2:]
-        stack.append(abbreviateMultiply(innerBracket))
+        print("after :"+formula+"\n")
+        
+        b = function(innerBracket)
+        print("b = "+b)
+        stack.append(b)
         i = formula.find("(")
-    abbreviateMultiply(formula)
-    print(stack)
+    
+    formula = abbreviateMultiply(formula)
     return refactoring(formula, stack, "b")
     
 
@@ -179,12 +173,10 @@ def calculate(formula):
 	print(stack)
 	return num
 
-
 #f = abbreviateBracket(f)
 formula = "("+temp+")"
 f = standardization(temp)
 f = function(f)
-#f = abbreviateMultiply(f)
 print("식 정리 : "+str(f))
 print(temp)
 '''g = postfix(f)
