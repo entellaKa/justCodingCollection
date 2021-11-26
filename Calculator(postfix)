@@ -101,7 +101,7 @@ def abbreviateBracket(formula):
     while count > 0:
         if formula[i] == "(":
             count += 1
-            n = abbreviateBracket(formula[i:])
+            n = abbreviateBracket(formula[i+1:])
             innerBracket = formula[i:i+n]
             returnFormula += formula
             
@@ -111,23 +111,28 @@ def abbreviateBracket(formula):
         elif formula[i] == ")":
             count -= 1
             if count == 0:
-                refacoring(formula, stack, "b")
+                print(stack)
+                print(formula)
+                refactoring(formula, stack, "b")
                 return i
         i+=1
     return -1
 
 def function(formula):
     stack = []
-    while formula.find("(") >= 0:
-        n = abbreviateBracket(formula[i:])
-        innerBracket = formula[i+1:i+n]
-        
+    i = formula.find("(")
+    while i >= 0:
+        n = abbreviateBracket(formula[i+1:])
+        innerBracket = formula[i+1:i+n+1]
         
         
         formula = formula[:i] + "b" + formula[i+n+2:]
         stack.append(abbreviateMultiply(innerBracket))
+        i = formula.find("(")
     abbreviateMultiply(formula)
-    refactoring(formula, stack, "b")
+    print(stack)
+    return refactoring(formula, stack, "b")
+    
 
 def postfix(formula):
 	postfixedFormula = ""
@@ -178,9 +183,9 @@ def calculate(formula):
 #f = abbreviateBracket(f)
 formula = "("+temp+")"
 f = standardization(temp)
-#f = abbreviateBracket(f)
-f = abbreviateMultiply(f)
-print("식 정리 : "+f)
+f = function(f)
+#f = abbreviateMultiply(f)
+print("식 정리 : "+str(f))
 print(temp)
 '''g = postfix(f)
 print("식 재구성 :"+g)
