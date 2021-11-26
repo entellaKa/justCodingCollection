@@ -13,7 +13,7 @@
 #temp = "1*2*3*4*8*9"
 #temp = "1+2-6*5+4-8*2*3+4*9+7+1-5*8-7"
 #temp = "3+4*(1+4/2+2*3)" #(3+(4*(1+(4/2)+(2*3))))
-temp = "3+4*(1+4/(2+6/18)*2)"
+temp = "3+4*(1+4*(2+6*18)*2)"
 #temp = "123456+345678*567890"
 
 
@@ -26,10 +26,9 @@ def checkOperator(c): #check this character is operator
 		return False
     
 def standardization(formula):
+    formula = formula.replace(" ", "")
     fixedFormula = ""
     num = ""
-    
-    formula = formula.replace(" ", "")
 
     for i in range(len(formula)):
         if formula[i].isnumeric():
@@ -90,7 +89,6 @@ def abbreviateMultiply(formula):
             i+=1
     return refactoring(abbreviatePlus(formula), stack, "m")
 
-
 def abbreviateBracket(formula):
     count = 1
     returnFormula = ""
@@ -114,19 +112,19 @@ def function(formula):
         n = abbreviateBracket(formula[i+1:])
         innerBracket = formula[i+1:i+n+1]
         
-        print("before:"+formula)
-        print("factor:"+innerBracket)
         formula = formula[:i] + "b" + formula[i+n+2:]
-        print("after :"+formula+"\n")
         
         b = function(innerBracket)
-        print("b = "+b)
         stack.append(b)
         i = formula.find("(")
     
     formula = abbreviateMultiply(formula)
     return refactoring(formula, stack, "b")
-    
+
+def restore(formula, storage):
+    while "n" in formula:
+        formula = formula.replace("n", storage.pop(0), 1)
+    return formula
 
 def postfix(formula):
 	postfixedFormula = ""
@@ -141,9 +139,6 @@ def postfix(formula):
 		else:
 			opStack.append(formula[i])
 			postfixedFormula += " "
-			print(formula[i])
-			print(opStack)
-	print(opStack)
 	return postfixedFormula
 	
 def calculate(formula):
@@ -170,16 +165,17 @@ def calculate(formula):
 			elif formula[i] == "%":
 				n = stack.pop()
 				num = stack.pop() % n
-	print(stack)
 	return num
 
 #f = abbreviateBracket(f)
 formula = "("+temp+")"
 f = standardization(temp)
 f = function(f)
+print("입력 값 : "+temp)
 print("식 정리 : "+str(f))
-print(temp)
-'''g = postfix(f)
-print("식 재구성 :"+g)
+f = restore(f, storageNumber)
+print("식 복구 : "+f)
+g = postfix(f)
+print("식 재구성 : "+g)
 h = calculate(g)
-print("식 결과값 :"+str(h))'''
+print("식 계산값 : "+str(h))
