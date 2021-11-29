@@ -2,15 +2,37 @@
 <html>
   <head>
     <title>일기장 sample</title>
+    <style>
+      *{margine:0; padding:0;}
+      .main{
+        width:1130; margin:0 auto;
+      }
+      textarea{
+        width:100%; 
+        border:none; outline:none; shadow-box:none; 
+        resize:none;
+        background-color:#0000;
+      }
+      .title{
+        font:3.4rem/1em sans-serif;
+        margin-bottom:10px;
+      }
+      .content{
+        font:2rem/1em sans-serif;
+        line-height:1.7;
+        text-decoration: underline
+      }
+    </style>
   </head>
   <body>
-    <div class="main" style="width:1130; margine:0 auto">
-      <span class="title">
-        
+    <div class="main">
+      <span class="top">
+        <textarea class="title" placeholder="제목" rows="1" cols="25" ></textarea>
       </span>
-      <div class="content">
-        
+      <div class="mid">
+        <textarea class="content" placeholder="오늘의 일기"></textarea>
       </div>
+      <div class="bottom"></div>
     </div>
   </body>
 </html>
