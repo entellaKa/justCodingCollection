@@ -6,7 +6,8 @@
       Document.getElementsByClassName("btn").addEventListener("click",resize);
       function resize{
         //fontSize = obj.fontSize()
-        Document.getElementsByClassName("content").style.height = obj.scrollWidth + "px"
+        //Document.getElementsByClassName("content").style.height = obj.scrollWidth + "px"
+        document.getElementById("content").style.height = obj.scrollWidth+"px";
       }
     </script>
     <style>
@@ -25,7 +26,7 @@
         float:left;
       }
       .title{
-        width:50%;
+        width:80%;
         font:3.4rem/1em sans-serif;
         margin-bottom:10px;
       }
@@ -34,14 +35,14 @@
         line-height:1.7;
         text-decoration: underline
       }
-      .btn{width:20%;height:10px;}
+      .btn{width:20%;}
     </style>
   </head>
   <body>
     <div class="main">
       <span class="top">
         <textarea class="title" placeholder="제목" rows="1" cols="25"></textarea>
-        <button class= "btn"></button>
+        <button class= "btn">버튼</button>
       </span>
       <div class="mid">
         <textarea class="content" placeholder="오늘의 일기" rows="2"></textarea>
