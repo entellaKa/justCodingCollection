@@ -2,6 +2,13 @@
 <html>
   <head>
     <title>일기장 sample</title>
+    <script>
+      Document.getElementsByClassName("btn").addEventListener("click",resize);
+      function resize{
+        //fontSize = obj.fontSize()
+        Document.getElementsByClassName("content").style.height = obj.scrollWidth + "px"
+      }
+    </script>
     <style>
       *{margine:0; padding:0;}
       textarea{
@@ -14,23 +21,27 @@
         width:1130; margin:0 auto;
         background-image: url('/img/diary.jpeg'); background-repeat:no-repeat; background-size:cover;
       }
+      .top{
+        float:left;
+      }
       .title{
+        width:50%;
         font:3.4rem/1em sans-serif;
         margin-bottom:10px;
-        overflow: hidden;
-        resize: none;
       }
       .content{
         font:2rem/1em sans-serif;
         line-height:1.7;
         text-decoration: underline
       }
+      .btn{width:20%;height:10px;}
     </style>
   </head>
   <body>
     <div class="main">
       <span class="top">
-        <textarea class="title" placeholder="제목" rows="1" cols="25" ></textarea>
+        <textarea class="title" placeholder="제목" rows="1" cols="25"></textarea>
+        <button class= "btn"></button>
       </span>
       <div class="mid">
         <textarea class="content" placeholder="오늘의 일기" rows="2"></textarea>
