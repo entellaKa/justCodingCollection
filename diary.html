@@ -2,21 +2,6 @@
 <html>
   <head>
     <title>일기장 sample13</title>
-    <script>
-      document.getElementsByClassName("btn").addEventListener("click",resize);
-      document.getElementsByClassName("btn").addEventListener("click",reform);
-      function resize{
-        //fontSize = obj.fontSize()
-        //Document.getElementsByClassName("content").style.height = obj.scrollWidth + "px"
-        document.getElementsByClassName("content").style.height = "999px";
-      }
-      function reform{
-        document.getElementsByClassName("img").style.height = "300px";
-        document.getElementsByClassName("img").style.width = "100px";
-        document.getElementsByClassName("img").style.backgroundColor = "brown";
-      }
-      //https://github.com/entellaKa/justCodingCollection/blob/main/img/diary.jpeg?raw=true
-    </script>
     <style>
       *{margine:0; padding:0;}
       textarea{
@@ -61,5 +46,20 @@
         <div class="img"></div>
       </div>
     </div>
+    <script>
+      document.getElementsByClassName("btn").addEventListener("click",resize);
+      document.getElementsByClassName("btn").addEventListener("click",reform);
+      function resize{
+        //fontSize = obj.fontSize()
+        //Document.getElementsByClassName("content").style.height = obj.scrollWidth + "px"
+        document.getElementsByClassName("content").style.height = "999px";
+      }
+      function reform{
+        document.getElementsByClassName("img").style.height = "300px";
+        document.getElementsByClassName("img").style.width = "100px";
+        document.getElementsByClassName("img").style.backgroundColor = "brown";
+      }
+      //https://github.com/entellaKa/justCodingCollection/blob/main/img/diary.jpeg?raw=true
+    </script>
   </body>
 </html>
