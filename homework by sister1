@@ -1,0 +1,14 @@
+import random 
+
+students = [[random.randint(0,50)+50 for score in range(3)] for student in range(30)] #학생 30명의 각각 3과목의 점수를 랜덤으로 결정한다.
+
+count = 0 #각 과목의 점수의 합이 210이 넘는 학생의 수를 세기 위한 변수
+print(students)
+for student in students:
+    if sum(student) >= 210: #각각의 학생(리스트)의 점수(요소)의 합계가 210 이상인지 확인 한다.
+        count+=1 #학생의 각 점수의 합계가 210 이상이라면 변수의 값을 1만큼 증가시킨다.
+print("점수의 총합이 210점 이상인 학생은 "+str(count)+"명 입니다") #코드 결과 출력
+
+#2021년 12월 05일
+#리스트 프리헨션을 이용하여 30명의 학생이 각 3개의 점수를 랜덤하게 입력한다(잠수의 범위는 50~100).
+#점수의 합이 210이 넘는 학생의 수를 구해서 출력한다.
